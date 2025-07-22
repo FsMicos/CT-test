@@ -1,0 +1,25 @@
+name: BDD Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run BDD tests and generate HTML report
+        run: behave -f behave_html_formatter:HTMLFormatter -o reports/report.html
+
+      - name: Upload HTML test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: bdd-report
+          path: reports/report.html
