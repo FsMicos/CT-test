@@ -37,7 +37,7 @@ def step_impl(context):
     # no se si sea necesario verificar esto, debido a que en cuando se crea el acuerdo, este ya se encuentra pendiente
     #respuestas, vi un escenario en el que se verifica un estado que fue modificado o seteado en un step anterior:
     # dado que corto la pizza en 6 trozos, cuando me coma 5 trozos, entonces deberia tener 1 restante.
-    assert context.acuerdo.getEstado().value == "Pendiente"
+    assert context.acuerdo.getEstado() == "Pendiente"
 
 
 @step("se genera un recordatorio para ese intercambio faltando (?P<dias_restantes>.+) con un nivel de urgencia (?P<nivel_urgencia>.+)")
