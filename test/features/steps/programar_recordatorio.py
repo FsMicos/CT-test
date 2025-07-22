@@ -14,18 +14,18 @@ use_step_matcher("re")
 
 @step("que dos estudiantes han acordado un intercambio")
 def step_impl(context):
-    context.estudiantes = {}
-    context.libros = {}
-    nombres_estudiantes = []
-    for row in context.table:
-        nombre_estudiante = row["nombre"]
-        nombre_libro = row["libro"]
-        context.estudiantes[nombre_estudiante] = Estudiante(nombre=nombre_estudiante)
-        context.libros[nombre_estudiante] = Libro(
-            nombre=nombre_libro,
-            estudiante=context.estudiantes[nombre_estudiante]
-        )
-        nombres_estudiantes.append(nombre_estudiante)
+    # context.estudiantes = {}
+    # context.libros = {}
+    # nombres_estudiantes = []
+    # for row in context.table:
+    #     nombre_estudiante = row["nombre"]
+    #     nombre_libro = row["libro"]
+    #     context.estudiantes[nombre_estudiante] = Estudiante(nombre=nombre_estudiante)
+    #     context.libros[nombre_estudiante] = Libro(
+    #         nombre=nombre_libro,
+    #         estudiante=context.estudiantes[nombre_estudiante]
+    #     )
+    #     nombres_estudiantes.append(nombre_estudiante)
 
     # Verificar que se crearon exactamente 2 estudiantes
     assert len(nombres_estudiantes) == 2, f"Se esperaban 2 estudiantes, pero se crearon {len(nombres_estudiantes)}"
