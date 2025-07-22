@@ -1,7 +1,12 @@
+import sys
+import os
 from behave import *
+from src import GestorRecordatorio
 from src.Estudiante import Estudiante
 from src.Libro import Libro
 from src.Acuerdo import Acuerdo
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 use_step_matcher("re")
 
