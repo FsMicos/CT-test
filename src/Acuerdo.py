@@ -1,5 +1,5 @@
 from enum import Enum
-
+from src.Estudiante import Estudiante
 from src.Libro import Libro
 
 class Acuerdo:
@@ -10,6 +10,7 @@ class Acuerdo:
         self.confirmadoE2 = False
         self.dias_restantes = 0
         self.Estado = EstadosAcuerdo.PENDIENTE
+        self.estudiantes = [libro_1.dueño, libro_2.dueño]
     def setDiasRestantes(self, dias_restantes):
         self.dias_restantes = dias_restantes
 

@@ -1,7 +1,7 @@
 import sys
 import os
 from behave import *
-from src import GestorRecordatorio
+from src.GestorRecordatorio import GestorRecordatorio
 from src.Estudiante import Estudiante
 from src.Libro import Libro
 from src.Acuerdo import Acuerdo
@@ -37,20 +37,33 @@ def step_impl(context):
     # no se si sea necesario verificar esto, debido a que en cuando se crea el acuerdo, este ya se encuentra pendiente
     #respuestas, vi un escenario en el que se verifica un estado que fue modificado o seteado en un step anterior:
     # dado que corto la pizza en 6 trozos, cuando me coma 5 trozos, entonces deberia tener 1 restante.
-    assert context.acuerdo.getEstado() == "Pendiente"
-
-@step("que faltan (?P<dias_restantes>.+) días para la fecha del intercambio")
-def step_impl(context, dias_restantes):
-    dias_restantes =int(dias_restantes)
-    context.acuerdo.setDiasRestantes(dias_restantes)
+    assert context.acuerdo.getEstado().value == "Pendiente"
 
 
-@step("se genera un recordatorio para ese intercambio")
-def step_impl(context):
-    context.recordatorio = GestorRecordatorio.gestionar_recordatorio(context.acuerdo)
+@step("se genera un recordatorio para ese intercambio faltando (?P<dias_restantes>.+) con un nivel de urgencia (?P<nivel_urgencia>.+)")
+def step_impl(context, dias_restantes, nivel_urgencia):
+    dias_restantes = int(dias_restantes)
+    nivel_urgencia = nivel_urgencia.upper()
+    acuerdo = context.acuerdo
+    gestor = GestorRecordatorio()
+    recordatorio = gestor.generar_recordatorio(acuerdo, dias_restantes)
+    assert recordatorio['nivel_urgencia'] == nivel_urgencia, (
+        f"Nivel de urgencia esperado: {nivel_urgencia}, pero se generó: {recordatorio['nivel_urgencia']}"
+    )
 
+    for estudiante in acuerdo.estudiantes:
+        estudiante.agregar_recordatorio(recordatorio)
 
-@step("el recordatorio debe tener un nivel de urgencia (?P<nivel_urgencia>.+)")
-def step_impl(context, nivel_urgencia):
+    context.mensaje_generado = recordatorio['mensaje']
 
-    assert context.recordatorio.nivel_urgencia == nivel_urgencia
+@step("se agrega la notificación de recordatorio para ambos estudiantes con el mensaje (?P<mensaje>.+)")
+def step_impl(context, mensaje):
+    acuerdo = context.acuerdo
+    estudiantes = acuerdo.estudiantes
+
+    for estudiante in estudiantes:
+        mensajes_encontrados = [r['mensaje'] for r in estudiante.recordatorios if r['mensaje'] == mensaje]
+        assert mensajes_encontrados, (
+            f"No se encontró el mensaje esperado en los recordatorios de {estudiante.nombre}.\n"
+            f"Mensajes encontrados: {[r['mensaje'] for r in estudiante.recordatorios]}"
+        )

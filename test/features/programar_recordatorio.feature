@@ -16,11 +16,10 @@ Esquema del escenario:  Recordatorio de intercambio sin confirmar
     |Juana  | El poder del ahora|
     |Pedro  | El camino|
   Y que el acuerdo tiene estado pendiente
-  Y que faltan <dias_restantes> días para la fecha del intercambio
-  Cuando se genera un recordatorio para ese intercambio
-  Entonces el recordatorio debe tener un nivel de urgencia <nivel_urgencia>
+  Cuando se genera un recordatorio para ese intercambio faltando <dias_restantes> con un nivel de urgencia <nivel_urgencia>
+  Entonces se agrega la notificación de recordatorio para ambos estudiantes con el mensaje <mensaje>
   Ejemplos:
-    |dias_restantes|nivel_urgencia|
-    |5             |BAJO|
-    |3          | MEDIO|
-    |2          | ALTO|
+    |dias_restantes|nivel_urgencia| mensaje|
+    |5             |BAJO| Recordatorio: Faltan 5 días para confirmar tu intercambio. Urgencia: BAJO.|
+    |3          | MEDIO|Recordatorio: Faltan 3 días para confirmar tu intercambio. Urgencia: MEDIO. |
+    |1          | ALTO| Recordatorio: Faltan 1 días para confirmar tu intercambio. Urgencia: ALTO.  |
