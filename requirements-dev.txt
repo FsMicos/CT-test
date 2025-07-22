@@ -2,6 +2,7 @@ pytest
 pytest-bdd
 pytest-cov
 behave
+behave-html-formatter
 allure-pytest
 black
 flake8

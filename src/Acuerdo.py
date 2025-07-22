@@ -15,7 +15,7 @@ class Acuerdo:
         self.dias_restantes = dias_restantes
 
     def getEstado(self):
-        return self.Estado
+        return self.Estado.value
 
 class EstadosAcuerdo(Enum):
     PENDIENTE = "Pendiente"
