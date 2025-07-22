@@ -38,12 +38,12 @@ jobs:
 
     - name: Ejecutar tests BDD
       run: |
-        behave features/ --format=pretty
+        behave test/features/ --format=pretty
 
     - name: Run BDD tests and generate HTML report
       run: |
         mkdir -p reports
-        behave features/ -f behave_html_formatter:HTMLFormatter -o reports/report.html
+        behave test/features/ -f behave_html_formatter:HTMLFormatter -o reports/report.html
 
     - name: Upload HTML test report
       uses: actions/upload-artifact@v4
